@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>James Okooboh — Cloud &amp; DevOps Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script>document.documentElement.classList.add('js-ready');</script>
+<style>
+  :root{
+    --bg:#0B0F14;
+    --bg-alt:#0E131A;
+    --surface:#121822;
+    --surface-hover:#161E2A;
+    --border:#212A38;
+    --border-soft:#1A222E;
+    --text:#E8EBF0;
+    --text-dim:#8892A4;
+    --text-faint:#5B6478;
+    --accent:#4DE8C8;
+    --accent-soft:rgba(77,232,200,0.12);
+    --amber:#F5A623;
+    --amber-soft:rgba(245,166,35,0.12);
+    --max:1120px;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Inter', sans-serif;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  h1,h2,h3{font-family:'Space Grotesk', sans-serif; font-weight:600; letter-spacing:-0.02em;}
+  .mono{font-family:'IBM Plex Mono', monospace;}
+  a{color:inherit; text-decoration:none;}
+  .wrap{max-width:var(--max); margin:0 auto; padding:0 32px;}
+  ::selection{background:var(--accent-soft); color:var(--accent);}
+  :focus-visible{outline:2px solid var(--accent); outline-offset:3px;}
+
+  /* background grid texture */
+  .bg-grid{
+    position:fixed; inset:0; z-index:0; pointer-events:none;
+    background-image:
+      linear-gradient(var(--border-soft) 1px, transparent 1px),
+      linear-gradient(90deg, var(--border-soft) 1px, transparent 1px);
+    background-size:64px 64px;
+    mask-image:radial-gradient(ellipse 80% 60% at 50% 0%, black 30%, transparent 75%);
+    opacity:0.5;
+  }
+
+  /* NAV */
+  nav{
+    position:fixed; top:0; left:0; right:0; z-index:50;
+    background:rgba(11,15,20,0.72);
+    backdrop-filter:blur(12px);
+    border-bottom:1px solid var(--border-soft);
+  }
+  nav .inner{
+    max-width:var(--max); margin:0 auto; padding:16px 32px;
+    display:flex; align-items:center; justify-content:space-between;
+  }
+  .logo{
+    display:flex; align-items:center; gap:10px;
+    font-family:'Space Grotesk'; font-weight:700; font-size:15px; letter-spacing:0.02em;
+  }
+  .logo-mark{
+    width:28px; height:28px; border-radius:7px;
+    background:linear-gradient(135deg, var(--accent), #2AA88E);
+    display:flex; align-items:center; justify-content:center;
+    color:#06110E; font-size:13px; font-weight:700;
+  }
+  .nav-links{display:flex; align-items:center; gap:36px;}
+  .nav-links a{
+    font-size:13.5px; color:var(--text-dim); font-weight:500;
+    margin-right:36px;
+    transition:color .2s ease;
+  }
+  .nav-links a:last-child{margin-right:0;}
+  .nav-links a:hover{color:var(--text);}
+  .nav-cta{
+    padding:8px 16px; border-radius:7px;
+    background:var(--accent); color:#06110E !important;
+    font-size:13px; font-weight:600;
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .nav-cta:hover{ transform:translateY(-1px); box-shadow:0 6px 20px rgba(77,232,200,0.25);}
+  .nav-toggle{display:none; background:none; border:none; color:var(--text); font-size:22px; cursor:pointer;}
+
+  @media (max-width: 760px){
+    .nav-links{
+      position:fixed; top:60px; right:0; left:0;
+      background:var(--bg-alt); border-bottom:1px solid var(--border);
+      flex-direction:column; align-items:flex-start; gap:0;
+      padding:8px 32px; transform:translateY(-130%); transition:transform .25s ease;
+    }
+    .nav-links.open{transform:translateY(0);}
+    .nav-links a{padding:14px 0; width:100%; border-bottom:1px solid var(--border-soft);}
+    .nav-toggle{display:block;}
+  }
+
+  /* ---------- HERO ---------- */
+  header.hero{
+    position:relative; z-index:1;
+    padding:168px 0 100px;
+  }
+  .hero-grid{
+    display:grid; grid-template-columns:1.05fr 0.95fr; gap:56px; align-items:center;
+  }
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:'IBM Plex Mono'; font-size:12px; letter-spacing:0.08em;
+    color:var(--accent); text-transform:uppercase;
+    padding:6px 12px; border:1px solid rgba(77,232,200,0.28); border-radius:20px;
+    background:var(--accent-soft);
+    margin-bottom:22px;
+  }
+  .eyebrow .dot{width:6px; height:6px; border-radius:50%; background:var(--accent); box-shadow:0 0 8px var(--accent); animation:blink 2s ease-in-out infinite;}
+  @keyframes blink{0%,100%{opacity:1;} 50%{opacity:.35;}}
+  h1.headline{
+    font-size:52px; line-height:1.06; letter-spacing:-0.03em;
+    margin-bottom:22px;
+  }
+  h1.headline .accent-text{color:var(--accent);}
+  .hero p.lede{
+    font-size:16.5px; color:var(--text-dim); max-width:520px; margin-bottom:32px;
+  }
+  .hero-actions{display:flex; gap:14px; flex-wrap:wrap;}
+  .btn{
+    display:inline-flex; align-items:center; gap:8px;
+    padding:13px 22px; border-radius:8px; font-size:14px; font-weight:600;
+    transition:transform .15s ease, box-shadow .15s ease, background .15s ease, border-color .15s ease;
+  }
+  .btn-primary{background:var(--accent); color:#06110E;}
+  .btn-primary:hover{transform:translateY(-2px); box-shadow:0 10px 28px rgba(77,232,200,0.22);}
+  .btn-ghost{border:1px solid var(--border); color:var(--text);}
+  .btn-ghost:hover{border-color:var(--text-faint); background:var(--surface);}
+  .hero-meta{
+    display:flex; gap:28px; margin-top:52px; flex-wrap:wrap;
+  }
+  .hero-meta div{border-left:1px solid var(--border); padding-left:14px;}
+  .hero-meta .num{font-family:'Space Grotesk'; font-size:22px; font-weight:700;}
+  .hero-meta .label{font-family:'IBM Plex Mono'; font-size:11px; color:var(--text-faint); text-transform:uppercase; letter-spacing:.04em; margin-top:2px;}
+
+  /* Hero diagram */
+  .hero-diagram{
+    background:var(--surface); border:1px solid var(--border); border-radius:16px;
+    padding:22px; position:relative; overflow:hidden;
+  }
+  .hero-diagram::before{
+    content:""; position:absolute; inset:-40% -20% auto auto; width:280px; height:280px;
+    background:radial-gradient(circle, rgba(77,232,200,0.14), transparent 70%);
+    pointer-events:none;
+  }
+  .diagram-label-row{
+    display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;
+  }
+  .diagram-title{font-family:'IBM Plex Mono'; font-size:11.5px; color:var(--text-faint); letter-spacing:.04em; text-transform:uppercase;}
+  .diagram-status{
+    display:flex; align-items:center; gap:6px; font-family:'IBM Plex Mono'; font-size:11px; color:var(--accent);
+  }
+  .diagram-status .dot{width:6px; height:6px; border-radius:50%; background:var(--accent); box-shadow:0 0 6px var(--accent);}
+
+  svg .node-box{ fill:var(--bg-alt); stroke:var(--border); stroke-width:1.2; }
+  svg .node-box.hot{ stroke:var(--accent); }
+  svg .node-label{ font-family:'IBM Plex Mono', monospace; fill:var(--text); font-size:10.5px; }
+  svg .node-sub{ font-family:'IBM Plex Mono', monospace; fill:var(--text-faint); font-size:8.5px; }
+  svg .flow-line{ stroke:var(--border); stroke-width:1.4; fill:none; }
+  svg .flow-pulse{ fill:none; stroke:var(--accent); stroke-width:2; stroke-dasharray:5 9; animation:flow 1.4s linear infinite; opacity:0.9; }
+  @keyframes flow{ to{ stroke-dashoffset:-28; } }
+
+  /* ---------- SECTIONS ---------- */
+  section{position:relative; z-index:1; padding:100px 0;}
+  .section-head{margin-bottom:52px; max-width:640px;}
+  .section-eyebrow{
+    font-family:'IBM Plex Mono'; font-size:12px; color:var(--accent);
+    text-transform:uppercase; letter-spacing:.08em; margin-bottom:14px; display:block;
+  }
+  h2.section-title{font-size:34px; margin-bottom:14px;}
+  .section-desc{color:var(--text-dim); font-size:15.5px;}
+
+  /* Work / project cards */
+  .work-grid{display:flex; flex-direction:column; gap:20px;}
+  .project-card{
+    border:1px solid var(--border); border-radius:16px; background:var(--surface);
+    display:grid; grid-template-columns:1fr 1.15fr; overflow:hidden;
+    transition:opacity .6s ease, transform .6s ease, border-color .25s ease;
+  }
+  .project-card:hover{border-color:#2C3646;}
+  .project-info{padding:30px 32px;}
+  .project-tag{
+    font-family:'IBM Plex Mono'; font-size:11px; color:var(--amber);
+    text-transform:uppercase; letter-spacing:.05em; margin-bottom:10px; display:block;
+  }
+  .project-title{font-size:21px; margin-bottom:10px;}
+  .project-desc{color:var(--text-dim); font-size:14px; margin-bottom:18px;}
+  .stack-row{display:flex; flex-wrap:wrap; gap:7px; margin-bottom:20px;}
+  .stack-pill{
+    font-family:'IBM Plex Mono'; font-size:11px; color:var(--text-dim);
+    border:1px solid var(--border); padding:4px 9px; border-radius:6px;
+  }
+  .project-link{
+    display:inline-flex; align-items:center; gap:6px;
+    font-size:13.5px; font-weight:600; color:var(--accent);
+  }
+  .project-link svg{width:13px; height:13px; transition:transform .2s ease;}
+  .project-link:hover svg{transform:translate(2px,-2px);}
+  .project-diagram{
+    background:var(--bg-alt); border-left:1px solid var(--border);
+    display:flex; align-items:center; justify-content:center; padding:20px;
+  }
+
+  @media (max-width: 860px){
+    .project-card{grid-template-columns:1fr;}
+    .project-diagram{border-left:none; border-top:1px solid var(--border);}
+    .hero-grid{grid-template-columns:1fr;}
+    h1.headline{font-size:38px;}
+  }
+
+  /* Capabilities */
+  .cap-grid{
+    display:grid; grid-template-columns:repeat(3, 1fr); gap:16px;
+  }
+  @media (max-width:760px){ .cap-grid{grid-template-columns:1fr;} }
+  .cap-card{
+    border:1px solid var(--border); border-radius:14px; padding:22px;
+    background:var(--surface);
+    transition:opacity .5s ease, transform .5s ease, border-color .2s ease;
+  }
+  .cap-card:hover{border-color:#2C3646;}
+  .cap-head{display:flex; align-items:center; gap:10px; margin-bottom:12px;}
+  .cap-icon{
+    width:32px; height:32px; border-radius:8px; background:var(--accent-soft);
+    display:flex; align-items:center; justify-content:center; color:var(--accent); font-size:15px;
+  }
+  .cap-title{font-family:'Space Grotesk'; font-size:15px; font-weight:600;}
+  .cap-items{font-size:13px; color:var(--text-dim); line-height:1.7;}
+
+  /* Experience */
+  .exp-item{
+    display:grid; grid-template-columns:180px 1fr; gap:32px;
+    padding:28px 0; border-top:1px solid var(--border-soft);
+  }
+  .exp-item:last-child{border-bottom:1px solid var(--border-soft);}
+  .exp-date{font-family:'IBM Plex Mono'; font-size:12.5px; color:var(--text-faint); padding-top:3px;}
+  .exp-role{font-size:18px; font-weight:600; font-family:'Space Grotesk'; margin-bottom:4px;}
+  .exp-org{font-size:13.5px; color:var(--accent); margin-bottom:12px; font-family:'IBM Plex Mono';}
+  .exp-list{color:var(--text-dim); font-size:14px; padding-left:18px;}
+  .exp-list li{margin-bottom:6px;}
+  @media (max-width:640px){ .exp-item{grid-template-columns:1fr; gap:6px;} }
+
+  /* Contact / footer */
+  footer{
+    position:relative; z-index:1;
+    border-top:1px solid var(--border-soft);
+    padding:90px 0 40px;
+    background:radial-gradient(ellipse 60% 100% at 50% 0%, rgba(77,232,200,0.06), transparent 70%);
+  }
+  .footer-cta{text-align:center; margin-bottom:56px;}
+  .footer-cta h2{font-size:36px; margin-bottom:16px;}
+  .footer-cta p{color:var(--text-dim); font-size:15.5px; margin-bottom:32px;}
+  .footer-actions{display:flex; gap:14px; justify-content:center; flex-wrap:wrap;}
+  .footer-bottom{
+    display:flex; justify-content:space-between; align-items:center;
+    padding-top:36px; border-top:1px solid var(--border-soft);
+    flex-wrap:wrap; gap:16px;
+  }
+  .footer-links{display:flex; gap:24px; flex-wrap:wrap;}
+  .footer-links a{font-size:13px; color:var(--text-dim); transition:color .2s ease;}
+  .footer-links a:hover{color:var(--accent);}
+  .footer-copy{font-family:'IBM Plex Mono'; font-size:12px; color:var(--text-faint);}
+
+  /* Reveal-on-scroll is progressive enhancement: only takes effect once .js-ready
+     is present on <html> (set synchronously below). If JS never runs, everything
+     stays visible by default. */
+  html.js-ready .reveal,
+  html.js-ready .project-card,
+  html.js-ready .cap-card{opacity:0; transform:translateY(20px); transition:opacity .6s ease, transform .6s ease;}
+  html.js-ready .reveal.visible,
+  html.js-ready .project-card.visible,
+  html.js-ready .cap-card.visible{opacity:1; transform:translateY(0);}
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important; scroll-behavior:auto !important;}
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-grid"></div>
+
+<nav>
+  <div class="inner">
+    <div class="logo"><span class="logo-mark">JO</span> James Okooboh</div>
+    <div class="nav-links" id="navLinks">
+      <a href="#work">Work</a>
+      <a href="#capabilities">Capabilities</a>
+      <a href="#experience">Experience</a>
+      <a href="#contact">Contact</a>
+      <a href="https://drive.google.com/file/d/1kdJ1pbmipI9zmvQqjAGLqqT4Nxx3wpCb/view?usp=sharing" target="_blank" class="nav-cta">Resume</a>
+    </div>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">☰</button>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <span class="eyebrow"><span class="dot"></span>Available for Cloud / DevOps roles</span>
+        <h1 class="headline">Infrastructure that runs<br/>itself<span class="accent-text">.</span></h1>
+        <p class="lede">Cloud &amp; DevOps Engineer specializing in Infrastructure as Code, AWS, Kubernetes, Docker, Terraform, and CI/CD — I design, automate, and ship the systems most people only draw on a whiteboard.</p>
+        <div class="hero-actions">
+          <a href="#work" class="btn btn-primary">View systems built →</a>
+          <a href="https://drive.google.com/file/d/1kdJ1pbmipI9zmvQqjAGLqqT4Nxx3wpCb/view?usp=sharing" target="_blank" class="btn btn-ghost">Download résumé</a>
+        </div>
+        <div class="hero-meta">
+          <div><div class="num">5</div><div class="label">Systems shipped</div></div>
+          <div><div class="num">3</div><div class="label">Compute models<br/>EKS · ECS · Lambda</div></div>
+          <div><div class="num">100%</div><div class="label">IaC provisioned</div></div>
+        </div>
+      </div>
+
+      <div class="hero-diagram">
+        <div class="diagram-label-row">
+          <span class="diagram-title">// request path</span>
+          <span class="diagram-status"><span class="dot"></span>live</span>
+        </div>
+        <svg viewBox="0 0 420 260" width="100%" height="auto">
+          <!-- lines -->
+          <path class="flow-line" d="M60,60 L60,120 L150,120"/>
+          <path class="flow-pulse" d="M60,60 L60,120 L150,120"/>
+          <path class="flow-line" d="M230,120 L320,120 L320,60"/>
+          <path class="flow-pulse" d="M230,120 L320,120 L320,60"/>
+          <path class="flow-line" d="M190,140 L190,200"/>
+          <path class="flow-pulse" d="M190,140 L190,200"/>
+
+          <!-- client -->
+          <rect class="node-box" x="20" y="30" width="80" height="40" rx="8"/>
+          <text class="node-label" x="60" y="53" text-anchor="middle">Client</text>
+
+          <!-- load balancer -->
+          <rect class="node-box hot" x="150" y="100" width="80" height="40" rx="8"/>
+          <text class="node-label" x="190" y="118" text-anchor="middle">ALB</text>
+          <text class="node-sub" x="190" y="130" text-anchor="middle">us-east-1</text>
+
+          <!-- compute -->
+          <rect class="node-box" x="150" y="200" width="80" height="42" rx="8"/>
+          <text class="node-label" x="190" y="221" text-anchor="middle">EKS / ECS</text>
+          <text class="node-sub" x="190" y="233" text-anchor="middle">containers</text>
+
+          <!-- cloudwatch -->
+          <rect class="node-box" x="290" y="30" width="90" height="40" rx="8"/>
+          <text class="node-label" x="335" y="53" text-anchor="middle">CloudWatch</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section id="work">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="section-eyebrow">Systems built</span>
+      <h2 class="section-title">Real infrastructure, not slideware</h2>
+      <p class="section-desc">Every diagram below traces the actual data path of a deployed system — provisioned with Terraform, shipped through GitHub Actions.</p>
+    </div>
+
+    <div class="work-grid">
+
+      <!-- PROJECT 1: Savory Table -->
+      <div class="project-card">
+        <div class="project-info">
+          <span class="project-tag">01 · Full-stack on EKS</span>
+          <h3 class="project-title">Savory Table</h3>
+          <p class="project-desc">A Node.js restaurant application deployed like a real production system — Docker → EKS, with Terraform-provisioned VPC, ECR, and RDS, and Prometheus/Grafana watching it the whole way.</p>
+          <div class="stack-row">
+            <span class="stack-pill">Node.js</span><span class="stack-pill">MySQL/RDS</span><span class="stack-pill">EKS</span><span class="stack-pill">Terraform</span><span class="stack-pill">GitHub Actions</span><span class="stack-pill">Prometheus</span>
+          </div>
+          <a href="https://github.com/Jamesokooboh/resturant-app-full-deployment-" target="_blank" class="project-link">View source
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7V16"/></svg>
+          </a>
+        </div>
+        <div class="project-diagram">
+          <svg viewBox="0 0 300 210" width="100%" height="auto">
+            <path class="flow-line" d="M50,40 L50,100 L120,100"/>
+            <path class="flow-pulse" d="M50,40 L50,100 L120,100"/>
+            <path class="flow-line" d="M200,100 L250,100"/>
+            <path class="flow-pulse" d="M200,100 L250,100"/>
+            <path class="flow-line" d="M160,120 L160,165"/>
+            <path class="flow-pulse" d="M160,120 L160,165"/>
+            <rect class="node-box" x="15" y="20" width="70" height="38" rx="7"/>
+            <text class="node-label" x="50" y="43" text-anchor="middle">GH Actions</text>
+            <rect class="node-box hot" x="120" y="80" width="80" height="40" rx="7"/>
+            <text class="node-label" x="160" y="98" text-anchor="middle">EKS Pod</text>
+            <text class="node-sub" x="160" y="110" text-anchor="middle">app.js</text>
+            <rect class="node-box" x="250" y="80" width="35" height="40" rx="7"/>
+            <text class="node-sub" x="267" y="103" text-anchor="middle">ECR</text>
+            <rect class="node-box" x="120" y="165" width="80" height="38" rx="7"/>
+            <text class="node-label" x="160" y="188" text-anchor="middle">RDS MySQL</text>
+          </svg>
+        </div>
+      </div>
+
+      <!-- PROJECT 2: Serverless Platform -->
+      <div class="project-card">
+        <div class="project-info">
+          <span class="project-tag">02 · Event-driven</span>
+          <h3 class="project-title">Serverless DevOps Platform</h3>
+          <p class="project-desc">An AWS-first, fully event-driven reference architecture. Upload hits S3, a queue with a dead-letter safety net feeds Lambda, and DynamoDB + SNS close the loop — no servers, no idle cost.</p>
+          <div class="stack-row">
+            <span class="stack-pill">Lambda</span><span class="stack-pill">API Gateway</span><span class="stack-pill">Cognito</span><span class="stack-pill">SQS/DLQ</span><span class="stack-pill">DynamoDB</span><span class="stack-pill">SNS</span>
+          </div>
+          <a href="https://github.com/Jamesokooboh/serverless-infrastructure" target="_blank" class="project-link">View source
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7V16"/></svg>
+          </a>
+        </div>
+        <div class="project-diagram">
+          <svg viewBox="0 0 320 210" width="100%" height="auto">
+            <path class="flow-line" d="M40,50 L40,100 L95,100"/>
+            <path class="flow-pulse" d="M40,50 L40,100 L95,100"/>
+            <path class="flow-line" d="M155,100 L200,100"/>
+            <path class="flow-pulse" d="M155,100 L200,100"/>
+            <path class="flow-line" d="M260,100 L295,100"/>
+            <path class="flow-pulse" d="M260,100 L295,100"/>
+            <path class="flow-line" d="M230,120 L230,165"/>
+            <path class="flow-pulse" d="M230,120 L230,165"/>
+            <rect class="node-box" x="10" y="30" width="60" height="38" rx="7"/>
+            <text class="node-label" x="40" y="53" text-anchor="middle">S3</text>
+            <rect class="node-box hot" x="95" y="80" width="60" height="40" rx="7"/>
+            <text class="node-label" x="125" y="98" text-anchor="middle">SQS</text>
+            <text class="node-sub" x="125" y="110" text-anchor="middle">+ DLQ</text>
+            <rect class="node-box" x="200" y="80" width="60" height="40" rx="7"/>
+            <text class="node-label" x="230" y="103" text-anchor="middle">Lambda</text>
+            <rect class="node-box" x="295" y="80" width="15" height="40" rx="4"/>
+            <rect class="node-box" x="200" y="165" width="60" height="38" rx="7"/>
+            <text class="node-label" x="230" y="188" text-anchor="middle">DynamoDB</text>
+          </svg>
+        </div>
+      </div>
+
+      <!-- PROJECT 3: ECS Fargate -->
+      <div class="project-card">
+        <div class="project-info">
+          <span class="project-tag">03 · Java on Fargate</span>
+          <h3 class="project-title">ECS Web Application Deployment</h3>
+          <p class="project-desc">A Java 17 / Spring WAR, built with Maven, deployed to ECS on Fargate — zero EC2 instances to patch. Application Load Balancer in front, CloudWatch logging every request.</p>
+          <div class="stack-row">
+            <span class="stack-pill">Java 17</span><span class="stack-pill">Spring</span><span class="stack-pill">Maven</span><span class="stack-pill">ECS Fargate</span><span class="stack-pill">ALB</span><span class="stack-pill">CloudWatch</span>
+          </div>
+          <a href="https://github.com/Jamesokooboh/ECS-Webapp-Deployment" target="_blank" class="project-link">View source
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7V16"/></svg>
+          </a>
+        </div>
+        <div class="project-diagram">
+          <svg viewBox="0 0 300 200" width="100%" height="auto">
+            <path class="flow-line" d="M50,40 L50,90 L120,90"/>
+            <path class="flow-pulse" d="M50,40 L50,90 L120,90"/>
+            <path class="flow-line" d="M200,90 L245,90"/>
+            <path class="flow-pulse" d="M200,90 L245,90"/>
+            <rect class="node-box" x="15" y="20" width="70" height="36" rx="7"/>
+            <text class="node-label" x="50" y="42" text-anchor="middle">Client</text>
+            <rect class="node-box hot" x="120" y="70" width="80" height="40" rx="7"/>
+            <text class="node-label" x="160" y="88" text-anchor="middle">ALB</text>
+            <text class="node-sub" x="160" y="100" text-anchor="middle">:80</text>
+            <rect class="node-box" x="245" y="70" width="45" height="40" rx="7"/>
+            <text class="node-sub" x="267" y="88" text-anchor="middle">Fargate</text>
+            <text class="node-sub" x="267" y="99" text-anchor="middle">:8080</text>
+            <rect class="node-box" x="120" y="150" width="80" height="34" rx="7"/>
+            <text class="node-label" x="160" y="171" text-anchor="middle">CloudWatch</text>
+            <path class="flow-line" d="M160,110 L160,150"/>
+            <path class="flow-pulse" d="M160,110 L160,150"/>
+          </svg>
+        </div>
+      </div>
+
+      <!-- PROJECT 4: EKS Lab -->
+      <div class="project-card">
+        <div class="project-info">
+          <span class="project-tag">04 · Kubernetes fundamentals</span>
+          <h3 class="project-title">EKS Public Architecture Lab</h3>
+          <p class="project-desc">A cost-optimized EKS cluster on Kubernetes 1.31, built with the terraform-aws-modules registry module — no NAT Gateway, public nodes, and an autoscaling node group for fast, cheap iteration.</p>
+          <div class="stack-row">
+            <span class="stack-pill">EKS 1.31</span><span class="stack-pill">Terraform</span><span class="stack-pill">IRSA/OIDC</span><span class="stack-pill">Managed Node Group</span>
+          </div>
+          <a href="https://github.com/Jamesokooboh/EKS_Terraform_Deployment" target="_blank" class="project-link">View source
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7V16"/></svg>
+          </a>
+        </div>
+        <div class="project-diagram">
+          <svg viewBox="0 0 300 200" width="100%" height="auto">
+            <path class="flow-line" d="M150,40 L150,80"/>
+            <path class="flow-pulse" d="M150,40 L150,80"/>
+            <path class="flow-line" d="M110,120 L80,150 M150,120 L150,150 M190,120 L220,150"/>
+            <path class="flow-pulse" d="M110,120 L80,150"/>
+            <path class="flow-pulse" d="M150,120 L150,150"/>
+            <path class="flow-pulse" d="M190,120 L220,150"/>
+            <rect class="node-box" x="110" y="15" width="80" height="34" rx="7"/>
+            <text class="node-label" x="150" y="36" text-anchor="middle">IGW</text>
+            <rect class="node-box hot" x="90" y="80" width="120" height="42" rx="7"/>
+            <text class="node-label" x="150" y="98" text-anchor="middle">Node Group</text>
+            <text class="node-sub" x="150" y="110" text-anchor="middle">min 1 / max 3</text>
+            <rect class="node-box" x="50" y="150" width="60" height="32" rx="6"/>
+            <text class="node-sub" x="80" y="170" text-anchor="middle">t3.micro</text>
+            <rect class="node-box" x="120" y="150" width="60" height="32" rx="6"/>
+            <text class="node-sub" x="150" y="170" text-anchor="middle">t3.micro</text>
+            <rect class="node-box" x="190" y="150" width="60" height="32" rx="6"/>
+            <text class="node-sub" x="220" y="170" text-anchor="middle">t3.micro</text>
+          </svg>
+        </div>
+      </div>
+
+      <!-- PROJECT 5: Benom Cakes -->
+      <div class="project-card">
+        <div class="project-info">
+          <span class="project-tag">05 · Client web build</span>
+          <h3 class="project-title">Benom Cakes N More</h3>
+          <p class="project-desc">A responsive bakery site built for a real client — static front end, direct-to-WhatsApp ordering, and a Supabase client already wired in as the foundation for what's next.</p>
+          <div class="stack-row">
+            <span class="stack-pill">HTML/CSS/JS</span><span class="stack-pill">Supabase</span><span class="stack-pill">WhatsApp API</span>
+          </div>
+          <a href="https://github.com/Jamesokooboh/Benom-Cakes-N-More" target="_blank" class="project-link">View source
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7V16"/></svg>
+          </a>
+        </div>
+        <div class="project-diagram">
+          <svg viewBox="0 0 300 190" width="100%" height="auto">
+            <path class="flow-line" d="M50,50 L50,90 L120,90"/>
+            <path class="flow-pulse" d="M50,50 L50,90 L120,90"/>
+            <path class="flow-line" d="M200,90 L245,90"/>
+            <path class="flow-pulse" d="M200,90 L245,90"/>
+            <path class="flow-line" d="M160,110 L160,150"/>
+            <path class="flow-pulse" d="M160,110 L160,150"/>
+            <rect class="node-box" x="15" y="30" width="70" height="36" rx="7"/>
+            <text class="node-label" x="50" y="52" text-anchor="middle">Visitor</text>
+            <rect class="node-box hot" x="120" y="70" width="80" height="40" rx="7"/>
+            <text class="node-label" x="160" y="94" text-anchor="middle">index.html</text>
+            <rect class="node-box" x="245" y="70" width="45" height="40" rx="7"/>
+            <text class="node-sub" x="267" y="94" text-anchor="middle">WhatsApp</text>
+            <rect class="node-box" x="120" y="150" width="80" height="30" rx="6"/>
+            <text class="node-sub" x="160" y="169" text-anchor="middle">Supabase (next)</text>
+          </svg>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="capabilities">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="section-eyebrow">Capabilities</span>
+      <h2 class="section-title">The stack behind every system above</h2>
+    </div>
+    <div class="cap-grid">
+      <div class="cap-card">
+        <div class="cap-head"><span class="cap-icon">☁</span><span class="cap-title">AWS Cloud</span></div>
+        <div class="cap-items">EC2 · S3 · IAM · VPC · RDS · Route 53 · CloudWatch · Lambda · SNS/SQS · DynamoDB · API Gateway · Cognito · EKS · ECS Fargate · ECR</div>
+      </div>
+      <div class="cap-card">
+        <div class="cap-head"><span class="cap-icon">▦</span><span class="cap-title">Infrastructure as Code</span></div>
+        <div class="cap-items">Terraform modules · remote state patterns · variable abstraction · reusable, parameterized configurations</div>
+      </div>
+      <div class="cap-card">
+        <div class="cap-head"><span class="cap-icon">◫</span><span class="cap-title">Containers &amp; Orchestration</span></div>
+        <div class="cap-items">Docker · Kubernetes (EKS) — Deployments, Services, Ingress, IRSA/OIDC · Amazon ECS on Fargate</div>
+      </div>
+      <div class="cap-card">
+        <div class="cap-head"><span class="cap-icon">⇄</span><span class="cap-title">CI/CD</span></div>
+        <div class="cap-items">GitHub Actions — build, containerize, push to ECR / GitHub Packages, deploy on merge</div>
+      </div>
+      <div class="cap-card">
+        <div class="cap-head"><span class="cap-icon">◔</span><span class="cap-title">Monitoring &amp; Observability</span></div>
+        <div class="cap-items">Prometheus · Grafana · CloudWatch — log aggregation, alerting, dashboards</div>
+      </div>
+      <div class="cap-card">
+        <div class="cap-head"><span class="cap-icon">⌘</span><span class="cap-title">Application Development</span></div>
+        <div class="cap-items">Node.js · Java 17 / Spring · Maven · HTML/CSS/JS · Supabase · MySQL (RDS)</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="experience">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="section-eyebrow">Experience</span>
+      <h2 class="section-title">Where the hands-on time went</h2>
+    </div>
+    <div class="exp-item reveal">
+      <div class="exp-date">2025 — Present</div>
+      <div>
+        <div class="exp-role">Cloud Engineering Instructor</div>
+        <div class="exp-org">Independent Training Program · Lagos, Nigeria</div>
+        <ul class="exp-list">
+          <li>Designed and delivered an AWS + Linux cloud engineering curriculum for a cohort of 5 — IAM, EC2, S3, VPC networking, RDS, Route 53, CloudWatch, static hosting.</li>
+          <li>Ran live deployment labs on real AWS environments, taking students from zero to functional cloud deployments.</li>
+          <li>Mentored on Terraform fundamentals: modularization, remote state, variable abstraction.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer id="contact">
+  <div class="wrap">
+    <div class="footer-cta reveal">
+      <h2>Let's build something reliable.</h2>
+      <p>Open to Cloud Engineer, DevOps Engineer, Platform Engineer, and SRE roles — remote or on-site.</p>
+      <div class="footer-actions">
+        <a href="mailto:jamesokooboh56@gmail.com" class="btn btn-primary">jamesokooboh56@gmail.com</a>
+        <a href="https://github.com/Jamesokooboh" target="_blank" class="btn btn-ghost">GitHub</a>
+        <a href="https://linkedin.com/in/jamesokooboh" target="_blank" class="btn btn-ghost">LinkedIn</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-links">
+        <a href="#work">Work</a>
+        <a href="#capabilities">Capabilities</a>
+        <a href="#experience">Experience</a>
+        <a href="https://drive.google.com/file/d/1kdJ1pbmipI9zmvQqjAGLqqT4Nxx3wpCb/view?usp=sharing" target="_blank">Résumé</a>
+      </div>
+      <div class="footer-copy">Lagos, Nigeria · Built with Terraform, mostly.</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // mobile nav toggle
+  const toggle = document.getElementById('navToggle');
+  const links = document.getElementById('navLinks');
+  toggle.addEventListener('click', () => links.classList.toggle('open'));
+  links.querySelectorAll('a').forEach(a => a.addEventListener('click', () => links.classList.remove('open')));
+
+  // scroll reveal
+  const revealEls = document.querySelectorAll('.reveal, .project-card, .cap-card');
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    revealEls.forEach(el => io.observe(el));
+  } else {
+    revealEls.forEach(el => el.classList.add('visible'));
+  }
+  // safety net: guarantee everything is visible shortly after load regardless
+  setTimeout(() => revealEls.forEach(el => el.classList.add('visible')), 2500);
+</script>
+
+</body>
+</html>
